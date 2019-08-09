@@ -51,41 +51,30 @@ Report genReport(Summary summary) {
 
 Suite genMaintenanceSuite(Maintenance maintenance) {
   List<Test> tests = [];
-  List<String> suggestions = [];
-  List<Problem> problems = [];
-
-  for (Suggestion sug in maintenance.suggestions) {
-    suggestions.add(sug.level.toUpperCase() +
-        ": " +
-        sug.title +
-        " (" +
-        sug.score.toString() +
-        ")\n" +
-        sug.description +
-        "\n\n");
-
-    problems.add(Problem(
-      sug.level.toUpperCase() +
-          ": " +
-          sug.title +
-          " (" +
-          sug.score.toString() +
-          ")",
-      sug.description,
-      false,
-    ));
-  }
 
   tests.add(Test(
-      'Maintenance Score of ' +
+      'Total Maintenance Score of ' +
           calculateMaintenanceScore(maintenance).toString(),
       0,
       null,
-      problems,
-      suggestions,
+      [],
+      [],
       false));
 
+  for (Suggestion suggestion in maintenance.suggestions) {
+    tests.add(Test(
+        getTitle(suggestion), 0, null, [], getDescription(suggestion), false));
+  }
+
   return Suite('Pana Maintenance', 'dart', tests);
+}
+
+Iterable<String> getDescription(Suggestion suggestion) {
+  return [suggestion.description];
+}
+
+String getTitle(Suggestion suggestion) {
+  return suggestion.level.toUpperCase() + ': ' + suggestion.title;
 }
 
 Suite genHealthSuite(Health health) {
