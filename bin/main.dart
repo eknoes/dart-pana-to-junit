@@ -51,24 +51,26 @@ Suite genMaintenanceSuite(Maintenance maintenance) {
   List<Test> tests = generateTests(maintenance.suggestions)
     ..add(Test(
         'Total Maintenance Score of ' +
-            calculateMaintenanceScore(maintenance).toString(),
+            (calculateMaintenanceScore(maintenance) * 100).toString(),
         0,
         null,
         [],
         [],
-        false))
-    ..reversed;
+        false));
 
-  return Suite('Pana Maintenance', null, tests);
+  tests = tests.reversed;
+
+  return Suite(' Pana Maintenance', null, tests);
 }
 
 Suite genHealthSuite(Health health) {
   List<Test> tests = generateTests(health.suggestions)
-    ..add(Test('Total Health Score of ' + health.healthScore.toString(), 0,
-        null, [], [], false))
-    ..reversed;
+    ..add(Test('Total Health Score of ' + (health.healthScore * 100).toString(),
+        0, null, [], [], false));
 
-  return Suite('Pana Health', null, tests);
+  tests = tests.reversed;
+
+  return Suite(' Pana Health', null, tests);
 }
 
 List<Test> generateTests(List<Suggestion> suggestions) {
@@ -97,6 +99,6 @@ String getTitle(Suggestion suggestion) {
       ': ' +
       suggestion.title +
       ' (' +
-      (suggestion.score.toString() ?? 0) +
+      (suggestion.score ?? 0).toString() +
       ')';
 }
