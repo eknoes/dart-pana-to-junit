@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:args/args.dart';
 import 'package:junitreport/junitreport.dart';
@@ -51,8 +50,13 @@ Report genReport(Summary summary) {
 
 Suite genMaintenanceSuite(Maintenance maintenance) {
   List<Test> tests = [];
+  List<String> suggestions = [];
 
-  tests.add(Test('Maintenance Score of ' + calculateMaintenanceScore(maintenance).toString(), 0, null, [], [], false));
+  for(Suggestion sug in maintenance.suggestions) {
+    suggestions.add(sug.level.toUpperCase() + ": " + sug.title + " (" + sug.score.toString() + ")\n" + sug.description + "\n\n");
+  }
+
+  tests.add(Test('Maintenance Score of ' + calculateMaintenanceScore(maintenance).toString(), 0, null, [], suggestions, false));
 
   return Suite('Pana Maintenance', 'dart', tests);
 }
