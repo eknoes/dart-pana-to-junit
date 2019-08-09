@@ -96,6 +96,6 @@ String getTitle(Suggestion suggestion) {
       ': ' +
       suggestion.title +
       ' (' +
-      suggestion.score.toString() +
+      (suggestion.score.toString() ?? 0) +
       ')';
 }
