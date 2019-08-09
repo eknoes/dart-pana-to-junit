@@ -27,7 +27,7 @@ pipeline {
                                 },
                         install_global_tools:
                                 {
-                                    sh 'pub global activate --source git https://github.com/eknoes/dart-pana-to-junit.git'
+                                    sh 'pub global activate pana_to_junit'
                                 }
                 )
             }
