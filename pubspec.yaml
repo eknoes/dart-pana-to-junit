@@ -1,0 +1,18 @@
+name: pana_to_junit
+description: Convert pana output to JUnit files
+version: 0.0.1
+homepage: https://github.com/eknoes/dart-pana-to-junit
+author: Eknoes <projects@eknoes.de>
+
+environment:
+  sdk: '>=2.4.0 <3.0.0'
+
+dependencies:
+  path: ^1.6.0
+  junitreport: ^1.0.0
+  args: '^1.5.2'
+  pana: ^0.12.0
+
+dev_dependencies:
+  pedantic: ^1.7.0
+  test: ^1.5.0
