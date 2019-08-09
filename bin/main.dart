@@ -62,15 +62,27 @@ Suite genMaintenanceSuite(Maintenance maintenance) {
       false));
 
   for (Suggestion suggestion in maintenance.suggestions) {
-    tests.add(Test(
-        getTitle(suggestion), 0, null, [], getDescription(suggestion), false));
+    if(suggestion.level == SuggestionLevel.bug || suggestion.level == SuggestionLevel.hint) {
+      tests.add(Test(
+          getTitle(suggestion), 0, null, [], [getDescription(suggestion)],
+          false));
+    } else {
+      Problem problem = Problem(
+          getDescription(suggestion),
+          null,
+          true
+      );
+      tests.add(Test(
+          getTitle(suggestion), 0, null, [problem], [],
+          false));
+    }
   }
 
   return Suite('Pana Maintenance', 'dart', tests);
 }
 
-Iterable<String> getDescription(Suggestion suggestion) {
-  return [suggestion.description];
+String getDescription(Suggestion suggestion) {
+  return suggestion.description;
 }
 
 String getTitle(Suggestion suggestion) {
