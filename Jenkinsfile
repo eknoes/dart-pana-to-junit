@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Prepare Cache') {
             steps {
-                copyArtifacts filter: '.packages', fingerprintArtifacts: true, projectName: '${JOB_NAME}', optional: true, selector: 'lastCompleted'
+                copyArtifacts filter: '.packages', fingerprintArtifacts: true, projectName: 'dart-pana-to-junit/master', optional: true, selector: lastCompleted()
             }
         }
         stage('Prepare') {
