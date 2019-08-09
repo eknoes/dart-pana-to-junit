@@ -22,7 +22,8 @@ Future<Null> main(List<String> args) async {
 
   Summary summary = await PanaFileParser(f).parse();
 
-  String report = JUnitReport(base: "TestBase", package: "TestPackage").toXml(await genReport(summary));
+  String report = JUnitReport(base: "TestBase", package: "TestPackage")
+      .toXml(await genReport(summary));
 
   await File(arguments['output']).writeAsString(report);
   print(report);
@@ -51,12 +52,38 @@ Report genReport(Summary summary) {
 Suite genMaintenanceSuite(Maintenance maintenance) {
   List<Test> tests = [];
   List<String> suggestions = [];
+  List<Problem> problems = [];
 
-  for(Suggestion sug in maintenance.suggestions) {
-    suggestions.add(sug.level.toUpperCase() + ": " + sug.title + " (" + sug.score.toString() + ")\n" + sug.description + "\n\n");
+  for (Suggestion sug in maintenance.suggestions) {
+    suggestions.add(sug.level.toUpperCase() +
+        ": " +
+        sug.title +
+        " (" +
+        sug.score.toString() +
+        ")\n" +
+        sug.description +
+        "\n\n");
+
+    problems.add(Problem(
+      sug.level.toUpperCase() +
+          ": " +
+          sug.title +
+          " (" +
+          sug.score.toString() +
+          ")",
+      sug.description,
+      false,
+    ));
   }
 
-  tests.add(Test('Maintenance Score of ' + calculateMaintenanceScore(maintenance).toString(), 0, null, [], suggestions, false));
+  tests.add(Test(
+      'Maintenance Score of ' +
+          calculateMaintenanceScore(maintenance).toString(),
+      0,
+      null,
+      problems,
+      suggestions,
+      false));
 
   return Suite('Pana Maintenance', 'dart', tests);
 }
@@ -64,7 +91,8 @@ Suite genMaintenanceSuite(Maintenance maintenance) {
 Suite genHealthSuite(Health health) {
   List<Test> tests = [];
 
-  tests.add(Test('Health Score of ' + health.healthScore.toString(), 0, null, [], [], false));
+  tests.add(Test('Health Score of ' + health.healthScore.toString(), 0, null,
+      [], [], false));
 
   return Suite('Pana Health', 'dart', tests);
 }
