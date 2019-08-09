@@ -19,12 +19,6 @@ pipeline {
                                 {
                                     echo "Install Dart dependencies"
                                     sh 'pub get'
-                                },
-                        dart_global_tools:
-                                {
-                                    echo 'Install global tools'
-                                    sh 'pub global activate junitreport'
-                                    sh 'pub global activate pana'
                                 }
                 )
             }
@@ -33,7 +27,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Check Health'
-                sh 'pub global run pana --no-warning --source path ${WORKSPACE} > out.json'
+                sh 'pub run pana --no-warning --source path ${WORKSPACE} > out.json'
                 sh 'pub run main.dart --input out.json --output pana-report.xml'
             }
         }
