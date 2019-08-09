@@ -12,9 +12,13 @@ pipeline {
     }
 
     stages {
-        stage('Prepare') {
+        stage('Prepare Cache') {
             steps {
                 copyArtifacts filter: '.packages', fingerprintArtifacts: true, projectName: '${JOB_NAME}', optional: true
+            }
+        }
+        stage('Prepare') {
+            steps {
                 parallel(
                         dart_dependencies:
                                 {
@@ -26,6 +30,11 @@ pipeline {
                                     sh 'pub global activate --source git https://github.com/eknoes/dart-pana-to-junit.git'
                                 }
                 )
+            }
+        }
+
+        stage('Save Cache') {
+            steps {
                 archiveArtifacts artifacts: '.packages', fingerprint: true
             }
         }
