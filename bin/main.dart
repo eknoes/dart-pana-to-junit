@@ -11,8 +11,7 @@ Future<Null> main(List<String> args) async {
   var arguments = getArgParser().parse(args);
 
   if (arguments['input'] == null) {
-    print("No Input give.");
-    return;
+    throw ArgumentError("No Input given.");
   }
 
   File f;
