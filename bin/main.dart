@@ -52,7 +52,7 @@ Report genReport(Summary summary) {
 Suite genMaintenanceSuite(Maintenance maintenance) {
   List<Test> tests = [];
 
-  tests.add(Test('Health Score of ' + calculateMaintenanceScore(maintenance).toString(), 0, null, [], [], false));
+  tests.add(Test('Maintenance Score of ' + calculateMaintenanceScore(maintenance).toString(), 0, null, [], [], false));
 
   return Suite('Pana Maintenance', 'dart', tests);
 }
