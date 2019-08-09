@@ -44,41 +44,47 @@ Report genReport(Summary summary) {
 
   suites.add(genHealthSuite(summary.health));
   suites.add(genMaintenanceSuite(summary.maintenance));
-//  suites.addAll(genFileSuites(summary.dartFiles));
 
   return Report(suites);
 }
 
 Suite genMaintenanceSuite(Maintenance maintenance) {
+  List<Test> tests = generateTests(maintenance.suggestions)
+    ..add(Test(
+        'Total Maintenance Score of ' +
+            calculateMaintenanceScore(maintenance).toString(),
+        0,
+        null,
+        [],
+        [],
+        false));
+
+  return Suite('Pana Maintenance', null, tests);
+}
+
+Suite genHealthSuite(Health health) {
+  List<Test> tests = generateTests(health.suggestions)
+    ..add(Test('Total Health Score of ' + health.healthScore.toString(), 0,
+        null, [], [], false));
+
+  return Suite('Pana Health', null, tests);
+}
+
+List<Test> generateTests(List<Suggestion> suggestions) {
   List<Test> tests = [];
 
-  tests.add(Test(
-      'Total Maintenance Score of ' +
-          calculateMaintenanceScore(maintenance).toString(),
-      0,
-      null,
-      [],
-      [],
-      false));
-
-  for (Suggestion suggestion in maintenance.suggestions) {
-    if(suggestion.level == SuggestionLevel.bug || suggestion.level == SuggestionLevel.hint) {
-      tests.add(Test(
-          getTitle(suggestion), 0, null, [], [getDescription(suggestion)],
-          false));
+  for (Suggestion suggestion in suggestions) {
+    if (suggestion.level == SuggestionLevel.bug ||
+        suggestion.level == SuggestionLevel.hint) {
+      tests.add(Test(getTitle(suggestion), 0, null, [],
+          [getDescription(suggestion)], false));
     } else {
-      Problem problem = Problem(
-          getDescription(suggestion),
-          null,
-          true
-      );
-      tests.add(Test(
-          getTitle(suggestion), 0, null, [problem], [],
-          false));
+      Problem problem = Problem(getDescription(suggestion), null, true);
+      tests.add(Test(getTitle(suggestion), 0, null, [problem], [], false));
     }
   }
 
-  return Suite('Pana Maintenance', 'dart', tests);
+  return tests;
 }
 
 String getDescription(Suggestion suggestion) {
@@ -86,14 +92,10 @@ String getDescription(Suggestion suggestion) {
 }
 
 String getTitle(Suggestion suggestion) {
-  return suggestion.level.toUpperCase() + ': ' + suggestion.title;
-}
-
-Suite genHealthSuite(Health health) {
-  List<Test> tests = [];
-
-  tests.add(Test('Health Score of ' + health.healthScore.toString(), 0, null,
-      [], [], false));
-
-  return Suite('Pana Health', 'dart', tests);
+  return suggestion.level.toUpperCase() +
+      ': ' +
+      suggestion.title +
+      ' (' +
+      suggestion.score.toString() +
+      ')';
 }
