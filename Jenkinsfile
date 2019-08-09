@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Prepare Cache') {
             steps {
-                copyArtifacts filter: '.packages', fingerprintArtifacts: true, projectName: '${JOB_NAME}', optional: true
+                copyArtifacts filter: '.packages', fingerprintArtifacts: true, projectName: '${JOB_NAME}', optional: true, selector: lastCompleted
             }
         }
         stage('Prepare') {
