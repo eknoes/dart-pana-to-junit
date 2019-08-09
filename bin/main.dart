@@ -22,11 +22,10 @@ Future<Null> main(List<String> args) async {
 
   Summary summary = await PanaFileParser(f).parse();
 
-  String report = JUnitReport(base: "TestBase", package: "TestPackage")
+  String report = JUnitReport(base: "", package: summary.packageName)
       .toXml(await genReport(summary));
 
   await File(arguments['output']).writeAsString(report);
-  print(report);
 }
 
 ArgParser getArgParser() {
