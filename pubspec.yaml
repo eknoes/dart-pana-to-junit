@@ -1,8 +1,9 @@
 name: pana_to_junit
-description: Convert pana output to JUnit files
-version: 0.0.1
+description: Convert the output of pana to a JUnit XML file, for example to include pana in CI like Jenkins.
+version: 1.0.0
 homepage: https://github.com/eknoes/dart-pana-to-junit
-author: Eknoes <projects@eknoes.de>
+repository: https://github.com/eknoes/dart-pana-to-junit
+author: Sönke Huster <projects@eknoes.de>
 
 environment:
   sdk: '>=2.4.0 <3.0.0'
