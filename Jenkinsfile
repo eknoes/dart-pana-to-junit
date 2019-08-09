@@ -19,6 +19,10 @@ pipeline {
                                 {
                                     echo "Install Dart dependencies"
                                     sh 'pub get'
+                                },
+                        install_global_tools:
+                                {
+                                    sh 'pub global activate --source git https://github.com/eknoes/dart-pana-to-junit.git'
                                 }
                 )
             }
@@ -28,7 +32,7 @@ pipeline {
             steps {
                 echo 'Check Health'
                 sh 'pub run pana --no-warning --source path ${WORKSPACE} > out.json'
-                sh 'pub run main.dart --input out.json --output pana-report.xml'
+                sh 'pub global run pana_to_junit:main --input out.json --output pana-report.xml'
             }
         }
 
