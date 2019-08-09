@@ -74,6 +74,10 @@ Suite genHealthSuite(Health health) {
 }
 
 List<Test> generateTests(List<Suggestion> suggestions) {
+  if(suggestions == null) {
+    return [];
+  }
+
   List<Test> tests = [];
 
   for (Suggestion suggestion in suggestions) {
