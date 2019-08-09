@@ -58,7 +58,7 @@ Suite genMaintenanceSuite(Maintenance maintenance) {
         [],
         false));
 
-  tests = tests.reversed;
+  tests = tests.reversed.toList();
 
   return Suite(' Pana Maintenance', null, tests);
 }
@@ -68,7 +68,7 @@ Suite genHealthSuite(Health health) {
     ..add(Test('Total Health Score of ' + (health.healthScore * 100).toString(),
         0, null, [], [], false));
 
-  tests = tests.reversed;
+  tests = tests.reversed.toList();
 
   return Suite(' Pana Health', null, tests);
 }
